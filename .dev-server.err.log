@@ -1,0 +1,134 @@
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior (file://C:/Users/raj patel/Desktop/ts/my-app/.next-build/dev/static/chunks/node_modules_next_dist_1ybzpk2._.js:2489:13)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior (file://C:/Users/raj patel/Desktop/ts/my-app/.next-build/dev/static/chunks/node_modules_next_dist_1ybzpk2._.js:2489:13)
+AI resume parsing unavailable; using local parser. Error: AI returned invalid structured data
+    at generateStructured (src\lib\ai\structured.ts:27:9)
+    at async POST (src\app\api\resumes\[id]\parse\route.ts:17:20)
+  25 |   }
+  26 |
+> 27 |   throw new Error("AI returned invalid structured data", { cause: lastError });
+     |         ^
+  28 | }
+  29 | {
+  [cause]: Error [InsufficientQuotaError]: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+  
+  Troubleshooting URL: https://docs.langchain.com/oss/javascript/langchain/errors/MODEL_RATE_LIMIT/
+  
+      at ignore-listed frames {
+    status: 429,
+    headers: Headers {
+      date: 'Thu, 23 Jul 2026 17:51:31 GMT',
+      'content-type': 'application/json; charset=utf-8',
+      'content-length': '337',
+      connection: 'keep-alive',
+      'cf-ray': 'a1fc8895995147f3-BOM',
+      'cf-cache-status': 'DYNAMIC',
+      server: 'cloudflare',
+      'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+      vary: 'Origin',
+      'access-control-expose-headers': 'CF-Ray, CF-Ray',
+      'x-content-type-options': 'nosniff',
+      'x-openai-proxy-wasm': 'v0.1',
+      'x-request-id': 'req_f8310d167aa14ae5905270d15945d1a8',
+      'set-cookie': '__cf_bm=mnnD4vSng3lquAoEwBGgXUwJDOQWu6gS7vDZWeHslyw-1784829090.1744218-1.0.1.1-t3nTO66_Mj7wQ78UzV.m2_k4TLEKYw4mly5ZE7Hs3zBELj3iYrMltUs_14kC0ILYrlSh58f4oLeC.oAAeTy.9JwWSGWmbdVGFrVV0bCQeKJEy9N6Q99m.Bnp9HAhiKxg; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 23 Jul 2026 18:21:31 GMT',
+      'alt-svc': 'h3=":443"; ma=86400'
+    },
+    requestID: 'req_f8310d167aa14ae5905270d15945d1a8',
+    error: {
+      message: 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.',
+      type: 'insufficient_quota',
+      param: null,
+      code: 'insufficient_quota'
+    },
+    code: 'insufficient_quota',
+    param: null,
+    type: 'insufficient_quota',
+    lc_error_code: 'MODEL_RATE_LIMIT',
+    rateLimitType: 'stop',
+    rateLimitReason: 'insufficient_quota'
+  }
+}
+AI job parsing unavailable; using local parser. Error: AI returned invalid structured data
+    at generateStructured (src\lib\ai\structured.ts:27:9)
+    at async POST (src\app\api\job-descriptions\route.ts:22:20)
+  25 |   }
+  26 |
+> 27 |   throw new Error("AI returned invalid structured data", { cause: lastError });
+     |         ^
+  28 | }
+  29 | {
+  [cause]: Error [InsufficientQuotaError]: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+  
+  Troubleshooting URL: https://docs.langchain.com/oss/javascript/langchain/errors/MODEL_RATE_LIMIT/
+  
+      at ignore-listed frames {
+    status: 429,
+    headers: Headers {
+      date: 'Thu, 23 Jul 2026 17:51:32 GMT',
+      'content-type': 'application/json; charset=utf-8',
+      'content-length': '337',
+      connection: 'keep-alive',
+      'cf-ray': 'a1fc88a2395947f3-BOM',
+      'cf-cache-status': 'DYNAMIC',
+      server: 'cloudflare',
+      'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+      vary: 'Origin',
+      'access-control-expose-headers': 'CF-Ray, CF-Ray',
+      'x-content-type-options': 'nosniff',
+      'x-openai-proxy-wasm': 'v0.1',
+      'x-request-id': 'req_a7bf97731f1e47ab99fccf39d24d1210',
+      'set-cookie': '__cf_bm=JRb0kKNJaby3R4Gnbn8EQcifQQdXowvpSTeETfUmQAw-1784829092.1928253-1.0.1.1-zZzPG7BlyF9g878_muXB7LTB0EAVpy3kOEH4r7aS4qVbYbpFqQnLXH.V5Y4cQeavw7gG8VLvMdjjC6eopuzrMzOVCdp0pxJBgXpbOSmPcDDbefzXrQesvoQA7HO9GVFK; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 23 Jul 2026 18:21:32 GMT',
+      'alt-svc': 'h3=":443"; ma=86400'
+    },
+    requestID: 'req_a7bf97731f1e47ab99fccf39d24d1210',
+    error: {
+      message: 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.',
+      type: 'insufficient_quota',
+      param: null,
+      code: 'insufficient_quota'
+    },
+    code: 'insufficient_quota',
+    param: null,
+    type: 'insufficient_quota',
+    lc_error_code: 'MODEL_RATE_LIMIT',
+    rateLimitType: 'stop',
+    rateLimitReason: 'insufficient_quota'
+  }
+}
+AI embeddings unavailable; using local embeddings. Error [InsufficientQuotaError]: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+
+Troubleshooting URL: https://docs.langchain.com/oss/javascript/langchain/errors/MODEL_RATE_LIMIT/
+
+    at ignore-listed frames {
+  status: 429,
+  headers: Headers {
+    date: 'Thu, 23 Jul 2026 17:51:36 GMT',
+    'content-type': 'application/json; charset=utf-8',
+    'content-length': '337',
+    connection: 'keep-alive',
+    'cf-ray': 'a1fc88b4dec647f3-BOM',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    vary: 'Origin',
+    'access-control-expose-headers': 'CF-Ray, CF-Ray',
+    'x-content-type-options': 'nosniff',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-request-id': 'req_e13d7a8e13194244b6f534a583c263b1',
+    'set-cookie': '__cf_bm=GmijQZTZLO8qgQ_ClTVqM0C2lszVjYAqknXtqvzM7qc-1784829095.1736143-1.0.1.1-3ps3Gi39o0Zh1tDfZebyZHMVShMi4M.J39KN0Gp2kL5vzYvrUEeWTClHBCB4pXtkvZULTLl7vZDQsR0O4HqaBviWB71A2Trz1fXlhUP4JmyFgduRieuPTfIe0cs1dHT1; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 23 Jul 2026 18:21:36 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_e13d7a8e13194244b6f534a583c263b1',
+  error: {
+    message: 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.',
+    type: 'insufficient_quota',
+    param: null,
+    code: 'insufficient_quota'
+  },
+  code: 'insufficient_quota',
+  param: null,
+  type: 'insufficient_quota',
+  lc_error_code: 'MODEL_RATE_LIMIT',
+  rateLimitType: 'stop',
+  rateLimitReason: 'insufficient_quota'
+}
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior (file://C:/Users/raj patel/Desktop/ts/my-app/.next-build/dev/static/chunks/node_modules_next_dist_1ybzpk2._.js:2489:13)

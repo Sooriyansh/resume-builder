@@ -1,8 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
+  distDir: ".next-build",
+  serverExternalPackages: ["pdf-parse"],
+  turbopack: {
+    root: process.cwd(),
+  },
 };
 
 export default nextConfig;

@@ -1,0 +1,162 @@
+import { z } from "zod";
+
+const nullableText = z.string().nullable();
+
+export const parsedResumeSchema = z.object({
+  personalInfo: z.object({
+    name: nullableText,
+    email: nullableText,
+    phone: nullableText,
+    location: nullableText,
+    linkedinUrl: nullableText,
+    githubUrl: nullableText,
+    portfolioUrl: nullableText,
+  }),
+  headline: nullableText,
+  summary: nullableText,
+  skills: z.object({
+    technical: z.array(z.string()),
+    soft: z.array(z.string()),
+    tools: z.array(z.string()),
+    frameworks: z.array(z.string()),
+    databases: z.array(z.string()),
+    cloudPlatforms: z.array(z.string()),
+  }),
+  experience: z.array(z.object({
+    jobTitle: nullableText,
+    company: nullableText,
+    location: nullableText,
+    startDate: nullableText,
+    endDate: nullableText,
+    isCurrentRole: z.boolean(),
+    description: z.array(z.string()),
+    achievements: z.array(z.string()),
+    technologies: z.array(z.string()),
+  })),
+  education: z.array(z.object({
+    degree: nullableText,
+    fieldOfStudy: nullableText,
+    institution: nullableText,
+    location: nullableText,
+    startYear: nullableText,
+    graduationYear: nullableText,
+    grade: nullableText,
+  })),
+  certifications: z.array(z.object({
+    name: z.string(),
+    issuer: nullableText,
+    issueDate: nullableText,
+    expiryDate: nullableText,
+  })),
+  projects: z.array(z.object({
+    name: nullableText,
+    description: nullableText,
+    role: nullableText,
+    technologies: z.array(z.string()),
+    achievements: z.array(z.string()),
+    url: nullableText,
+  })),
+  awards: z.array(z.string()),
+  publications: z.array(z.string()),
+  volunteerExperience: z.array(z.string()),
+  languages: z.array(z.string()),
+  interests: z.array(z.string()),
+  estimatedExperienceYears: z.number().nonnegative().nullable(),
+});
+
+export const parsedJobDescriptionSchema = z.object({
+  jobTitle: nullableText,
+  companyName: nullableText,
+  location: nullableText,
+  employmentType: nullableText,
+  workMode: z.enum(["remote", "hybrid", "onsite", "unknown"]),
+  seniorityLevel: nullableText,
+  minimumExperienceYears: z.number().nonnegative().nullable(),
+  maximumExperienceYears: z.number().nonnegative().nullable(),
+  requiredSkills: z.array(z.string()),
+  preferredSkills: z.array(z.string()),
+  requiredTools: z.array(z.string()),
+  preferredTools: z.array(z.string()),
+  requiredFrameworks: z.array(z.string()),
+  requiredEducation: z.array(z.string()),
+  preferredEducation: z.array(z.string()),
+  requiredCertifications: z.array(z.string()),
+  preferredCertifications: z.array(z.string()),
+  responsibilities: z.array(z.string()),
+  requiredSoftSkills: z.array(z.string()),
+  preferredSoftSkills: z.array(z.string()),
+  domainKeywords: z.array(z.string()),
+  industry: nullableText,
+  responsibilitiesKeywords: z.array(z.string()),
+});
+
+const scoreSchema = z.number().min(0).max(100);
+
+export const resumeAnalysisSchema = z.object({
+  id: z.string(),
+  resumeId: z.string(),
+  overallScore: scoreSchema,
+  verdict: z.enum(["Poor Match", "Average Match", "Good Match", "Strong Match"]),
+  scoreBreakdown: z.object({
+    requiredSkills: scoreSchema,
+    relevantExperience: scoreSchema,
+    responsibilities: scoreSchema,
+    educationAndCertifications: scoreSchema,
+    keywordCoverage: scoreSchema,
+    resumeQuality: scoreSchema,
+  }),
+  matchedSkills: z.array(z.string()),
+  missingRequiredSkills: z.array(z.string()),
+  missingPreferredSkills: z.array(z.string()),
+  matchedKeywords: z.array(z.string()),
+  missingKeywords: z.array(z.string()),
+  strengths: z.array(z.string()),
+  weaknesses: z.array(z.string()),
+  atsIssues: z.array(z.object({
+    id: z.string(),
+    category: z.string(),
+    issue: z.string(),
+    severity: z.enum(["low", "medium", "high"]),
+    recommendation: z.string(),
+    evidence: nullableText,
+  })),
+  experienceAnalysis: z.object({
+    requiredExperienceYears: z.number().nullable(),
+    estimatedCandidateExperienceYears: z.number().nullable(),
+    relevantExperienceSummary: z.string(),
+    isExperienceSuitable: z.boolean(),
+    explanation: z.string(),
+  }),
+  educationAnalysis: z.object({
+    requiredEducation: z.array(z.string()),
+    candidateEducation: z.array(z.string()),
+    matchedRequirements: z.array(z.string()),
+    missingRequirements: z.array(z.string()),
+    explanation: z.string(),
+  }),
+  improvementSuggestions: z.array(z.object({
+    id: z.string(),
+    section: z.string(),
+    priority: z.enum(["low", "medium", "high"]),
+    currentIssue: z.string(),
+    recommendation: z.string(),
+    example: nullableText,
+    requiresUserVerification: z.boolean(),
+  })),
+  suggestedBulletRewrites: z.array(z.object({
+    originalBullet: z.string(),
+    suggestedBullet: z.string(),
+    reason: z.string(),
+  })),
+  interviewQuestions: z.array(z.object({
+    question: z.string(),
+    reason: z.string(),
+    category: z.string(),
+  })),
+  recruiterSummary: z.string(),
+  createdAt: z.string(),
+});
+
+export type ParsedResume = z.infer<typeof parsedResumeSchema>;
+export type ParsedJobDescription = z.infer<typeof parsedJobDescriptionSchema>;
+export type ResumeAnalysis = z.infer<typeof resumeAnalysisSchema>;

@@ -15,14 +15,18 @@
 
 # next.js
 /.next/
+/.next-build/
 /out/
 
 # production
 /build
+/.private-uploads/
 
 # misc
 .DS_Store
 *.pem
+/prisma/*.db
+/prisma/*.db-journal
 
 # debug
 npm-debug.log*
@@ -32,6 +36,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel

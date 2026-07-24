@@ -1,0 +1,15 @@
+export const SKILL_ALIASES: Record<string, string> = {
+  js: "javascript",
+  ts: "typescript",
+  "react.js": "react",
+  reactjs: "react",
+  next: "next.js",
+  nextjs: "next.js",
+  node: "node.js",
+  nodejs: "node.js",
+  postgres: "postgresql",
+  "aws cloud": "aws",
+  "amazon web services": "aws",
+  gcp: "google cloud platform",
+  k8s: "kubernetes",
+};
