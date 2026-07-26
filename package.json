@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
+    "vercel-build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
@@ -15,7 +16,7 @@
     "format": "prettier --write .",
     "prepare": "husky",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma db push",
+    "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts"
   },
   "lint-staged": {

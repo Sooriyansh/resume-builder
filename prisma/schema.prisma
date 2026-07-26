@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id              String           @id @default(cuid())
+  id              String           @id @default(cuid()) @map("_id")
   name            String?
   email           String?          @unique
   emailVerified   DateTime?
@@ -27,23 +27,23 @@ model User {
 }
 
 model BuilderResume {
-  id          String   @id @default(cuid())
-  userId      String
-  title       String
-  template    String   @default("modern")
-  data        Json
-  settings    Json
-  shareToken  String?  @unique
-  shareEnabled Boolean @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid()) @map("_id")
+  userId       String
+  title        String
+  template     String   @default("modern")
+  data         Json
+  settings     Json
+  shareToken   String?  @unique
+  shareEnabled Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, updatedAt])
 }
 
 model ExportFeedback {
-  id              String   @id @default(cuid())
+  id              String   @id @default(cuid()) @map("_id")
   name            String
   rating          Int
   builderResumeId String?
@@ -56,7 +56,7 @@ model ExportFeedback {
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String  @id @default(cuid()) @map("_id")
   userId            String
   type              String
   provider          String
@@ -74,7 +74,7 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @default(cuid()) @map("_id")
   sessionToken String   @unique
   userId       String
   expires      DateTime
@@ -82,6 +82,7 @@ model Session {
 }
 
 model VerificationToken {
+  id         String   @id @default(cuid()) @map("_id")
   identifier String
   token      String   @unique
   expires    DateTime
@@ -90,7 +91,7 @@ model VerificationToken {
 }
 
 model Resume {
-  id                 String        @id @default(cuid())
+  id                 String        @id @default(cuid()) @map("_id")
   userId             String
   originalFilename   String
   storagePath        String
@@ -111,7 +112,7 @@ model Resume {
 }
 
 model JobDescription {
-  id          String     @id @default(cuid())
+  id          String     @id @default(cuid()) @map("_id")
   userId      String
   title       String?
   companyName String?
@@ -126,7 +127,7 @@ model JobDescription {
 }
 
 model Analysis {
-  id               String              @id @default(cuid())
+  id               String         @id @default(cuid()) @map("_id")
   userId           String
   resumeId         String
   jobDescriptionId String
@@ -135,12 +136,12 @@ model Analysis {
   scoreBreakdown   Json
   result           Json
   modelName        String
-  promptVersion    String              @default("1.0")
-  createdAt        DateTime            @default(now())
-  updatedAt        DateTime            @updatedAt
-  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  resume           Resume              @relation(fields: [resumeId], references: [id], onDelete: Cascade)
-  jobDescription   JobDescription      @relation(fields: [jobDescriptionId], references: [id], onDelete: Cascade)
+  promptVersion    String         @default("1.0")
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resume           Resume         @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  jobDescription   JobDescription @relation(fields: [jobDescriptionId], references: [id], onDelete: Cascade)
   chatSessions     ChatSession[]
 
   @@index([userId, createdAt])
@@ -149,7 +150,7 @@ model Analysis {
 }
 
 model ResumeChunk {
-  id             String   @id @default(cuid())
+  id             String   @id @default(cuid()) @map("_id")
   userId         String
   resumeId       String
   content        String
@@ -167,7 +168,7 @@ model ResumeChunk {
 }
 
 model ChatSession {
-  id         String        @id @default(cuid())
+  id         String        @id @default(cuid()) @map("_id")
   userId     String
   resumeId   String
   analysisId String
@@ -181,7 +182,7 @@ model ChatSession {
 }
 
 model ChatMessage {
-  id            String      @id @default(cuid())
+  id            String      @id @default(cuid()) @map("_id")
   chatSessionId String
   role          String
   content       String
@@ -191,7 +192,7 @@ model ChatMessage {
 }
 
 model UsageRecord {
-  id            String   @id @default(cuid())
+  id            String   @id @default(cuid()) @map("_id")
   userId        String
   action        String
   tokenEstimate Int

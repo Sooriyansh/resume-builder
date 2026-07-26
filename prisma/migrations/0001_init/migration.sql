@@ -1,15 +1,6 @@
 -- CreateSchema
 CREATE SCHEMA IF NOT EXISTS "public";
 
--- Enable pgvector before creating vector columns
-CREATE EXTENSION IF NOT EXISTS vector;
-
--- CreateEnum
-CREATE TYPE "ResumeStatus" AS ENUM ('UPLOADED', 'PARSED', 'INDEXED', 'FAILED');
-
--- CreateEnum
-CREATE TYPE "AnalysisVerdict" AS ENUM ('POOR_MATCH', 'AVERAGE_MATCH', 'GOOD_MATCH', 'STRONG_MATCH');
-
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -22,6 +13,35 @@ CREATE TABLE "User" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "BuilderResume" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "template" TEXT NOT NULL DEFAULT 'modern',
+    "data" JSONB NOT NULL,
+    "settings" JSONB NOT NULL,
+    "shareToken" TEXT,
+    "shareEnabled" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "BuilderResume_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ExportFeedback" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "rating" INTEGER NOT NULL,
+    "builderResumeId" TEXT,
+    "resumeTitle" TEXT,
+    "source" TEXT NOT NULL DEFAULT 'builder',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "ExportFeedback_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -70,7 +90,7 @@ CREATE TABLE "Resume" (
     "extractedText" TEXT,
     "parsedData" JSONB,
     "extractionWarnings" JSONB,
-    "status" "ResumeStatus" NOT NULL DEFAULT 'UPLOADED',
+    "status" TEXT NOT NULL DEFAULT 'UPLOADED',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -98,7 +118,7 @@ CREATE TABLE "Analysis" (
     "resumeId" TEXT NOT NULL,
     "jobDescriptionId" TEXT NOT NULL,
     "overallScore" INTEGER NOT NULL,
-    "verdict" "AnalysisVerdict" NOT NULL,
+    "verdict" TEXT NOT NULL,
     "scoreBreakdown" JSONB NOT NULL,
     "result" JSONB NOT NULL,
     "modelName" TEXT NOT NULL,
@@ -117,7 +137,7 @@ CREATE TABLE "ResumeChunk" (
     "content" TEXT NOT NULL,
     "section" TEXT NOT NULL,
     "chunkIndex" INTEGER NOT NULL,
-    "embedding" vector(1536),
+    "embedding" TEXT,
     "embeddingModel" TEXT NOT NULL,
     "contentHash" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -164,6 +184,18 @@ CREATE TABLE "UsageRecord" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "BuilderResume_shareToken_key" ON "BuilderResume"("shareToken");
+
+-- CreateIndex
+CREATE INDEX "BuilderResume_userId_updatedAt_idx" ON "BuilderResume"("userId", "updatedAt");
+
+-- CreateIndex
+CREATE INDEX "ExportFeedback_createdAt_idx" ON "ExportFeedback"("createdAt");
+
+-- CreateIndex
+CREATE INDEX "ExportFeedback_builderResumeId_idx" ON "ExportFeedback"("builderResumeId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
 
 -- CreateIndex
@@ -203,6 +235,9 @@ CREATE INDEX "ChatSession_userId_analysisId_idx" ON "ChatSession"("userId", "ana
 CREATE INDEX "UsageRecord_userId_createdAt_idx" ON "UsageRecord"("userId", "createdAt");
 
 -- AddForeignKey
+ALTER TABLE "BuilderResume" ADD CONSTRAINT "BuilderResume_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -240,6 +275,3 @@ ALTER TABLE "ChatMessage" ADD CONSTRAINT "ChatMessage_chatSessionId_fkey" FOREIG
 
 -- AddForeignKey
 ALTER TABLE "UsageRecord" ADD CONSTRAINT "UsageRecord_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- Approximate cosine-similarity index for resume retrieval
-CREATE INDEX resume_chunk_embedding_idx ON "ResumeChunk" USING hnsw (embedding vector_cosine_ops);

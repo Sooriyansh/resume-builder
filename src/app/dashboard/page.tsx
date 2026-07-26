@@ -4,6 +4,10 @@ import { AppShell } from "@/components/app-shell";
 import { requireUser } from "@/lib/require-user";
 import { db } from "@/lib/db";
 
+// This page depends on the request-time database and must not be prerendered
+// during `next build`.
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const userId = await requireUser();
   const analyses = userId ? await db.analysis.findMany({

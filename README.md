@@ -1,12 +1,12 @@
 # ResumeLens AI
 
-A private, evidence-based resume analyzer built with Next.js, TypeScript, Auth.js,
-LangChain.js, SQLite, Prisma, Tailwind CSS, Zod, and OpenAI-compatible models.
+A private, evidence-based resume analyzer built with Next.js, TypeScript,
+LangChain.js, PostgreSQL, Prisma, Tailwind CSS, Zod, and OpenAI-compatible models.
 
 ## Local setup
 
 1. Copy `.env.example` to `.env` and fill in the required values.
-2. Install and create the local SQLite database:
+2. Start a PostgreSQL database, set `DATABASE_URL`, then install and migrate:
 
    ```bash
    npm install
@@ -40,7 +40,26 @@ npm run build
 
 ## Production notes
 
-- Create a private Supabase bucket and provide its service-role credentials server-side
-  before setting `STORAGE_PROVIDER=supabase`.
+- Connect a PostgreSQL provider in Vercel and expose its pooled connection string
+  as `DATABASE_URL`.
+- Create a private Supabase Storage bucket named `private-resumes` (or change
+  `SUPABASE_RESUME_BUCKET`) and configure its server-side service-role credentials.
+- Set `STORAGE_PROVIDER=supabase`; Vercel's local filesystem is not persistent.
 - Keep AI and Auth secrets server-only. Never prefix them with `NEXT_PUBLIC_`.
-- Run migrations in CI and use signed, private file access only.
+- The Vercel build command runs `prisma migrate deploy` before compiling the app.
+
+### Required Vercel environment variables
+
+```text
+DATABASE_URL
+STORAGE_PROVIDER=supabase
+SUPABASE_URL
+SUPABASE_SERVICE_ROLE_KEY
+SUPABASE_RESUME_BUCKET=private-resumes
+OPENAI_API_KEY
+OPENAI_CHAT_MODEL=gpt-4.1-mini
+OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+```
+
+Apply these to Production (and Preview if preview deployments should work), then
+redeploy without reusing the previous build cache.

@@ -4,6 +4,10 @@ import { AppShell } from "@/components/app-shell";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/require-user";
 
+// This page reads request-time data and must not connect to the database while
+// Vercel is building the application.
+export const dynamic = "force-dynamic";
+
 export default async function HistoryPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const userId = await requireUser();
   const filters = await searchParams;
